@@ -26,7 +26,7 @@ float angle = 0.f;
 
 int main(void)
 {
-	InitWindow(WIDTH, HEIGHT, "Pixel Art! :)");
+	InitWindow(WIDTH, HEIGHT, "planet");
 
 	obj = {WIDTH/2, HEIGHT/2};
 	plr = {WIDTH/2, 50};
@@ -51,16 +51,29 @@ int main(void)
 
 void UpdateDrawFrame()
 {
-	angle += .1f;
+	angle += 1.f * GetFrameTime();
 
-	plr.x = sinf(angle) * (obj.x-plr.x) + WIDTH/2;
-	plr.y = cosf(angle) * (obj.y-plr.y) + HEIGHT/2;
+	plr.x = sinf(angle) * 100 + WIDTH/2;
+	plr.y = cosf(angle) * 100 + HEIGHT/2;
+
 	BeginDrawing();
 	
 	ClearBackground(DARKGRAY);
 
 	DrawCircleV(obj, 50.f, WHITE);
 	DrawCircleV(plr, 25.f, WHITE);
+
+	Vector2 rightCorner = { plr.x, obj.y };  // corner of the triangle
+
+	// Hypotenuse
+	DrawLineV(obj, plr, BLUE);
+	
+	// Horizontal leg (cosine side)
+	DrawLineV(obj, rightCorner, GREEN);
+	
+	// Vertical leg (sine side)
+	DrawLineV(rightCorner, plr, RED);
+	
 
 	EndDrawing();
 }
